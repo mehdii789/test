@@ -5,25 +5,14 @@ const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 const path = require('path');
 const helmet = require('helmet');
-const dotenv = require("dotenv");
-dotenv.config();
+require('dotenv').config()
 
-const MY_PORT = process.env.PORT || '4200' ;
-const MY_APP_SECRET = process.env.APP_SECRET;
+mongoose.connect(process.env.MONGODB_PATH,
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-app.get("/", (req, res) => {
-  return res.send(MY_APP_SECRET);
-});
-
-app.listen(MY_PORT, () => console.log(`Server running on port ${MY_PORT}`));
-
-
-
-mongoose.connect('mongodb+srv://user1:1234@cluster0.ql2j3yc.mongodb.net/?retryWrites=true&w=majority',
-{ useNewUrlParser: true,
-  useUnifiedTopology: true })
-.then(() => console.log('Connexion à MongoDB réussie !'))
-.catch(() => console.log('Connexion à MongoDB échouée !'));
 
 app.use(express.json());
 
